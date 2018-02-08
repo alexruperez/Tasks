@@ -4,10 +4,38 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Tasks.xcscheme</key>
+		<key>Intent.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Tasks.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>81B165A2202CA5C30020B193</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>81B165B8202CA5C30020B193</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>81B165C3202CA5C40020B193</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>81B165D9202CA5D00020B193</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
