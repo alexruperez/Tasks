@@ -26,11 +26,11 @@ class TaskTableViewCell: UITableViewCell {
         (accessoryView as? UISwitch)?.isOn = false
     }
 
-    func config(_ text: String? = nil, delegate: TaskTableViewCellDelegate? = nil) {
+    func config(_ text: String? = nil, _ isOn: Bool? = nil, delegate: TaskTableViewCellDelegate? = nil) {
         textField.text = text
         self.delegate = delegate
         if text != nil {
-            configAsTaskCellType()
+            configAsTaskCellType(isOn)
         } else {
             configAsAddCellType()
         }
@@ -38,7 +38,7 @@ class TaskTableViewCell: UITableViewCell {
 
     // MARK: - Private Methods
 
-    private func configAsTaskCellType() {
+    private func configAsTaskCellType(_ isOn: Bool? = nil) {
         // TODO: Show detail button
         editingAccessoryType = .none // .detailButton
         if !(accessoryView is UISwitch) {
@@ -46,6 +46,10 @@ class TaskTableViewCell: UITableViewCell {
             switchView.onTintColor = tintColor
             switchView.addTarget(self, action: #selector(switchAction(_:)), for: .valueChanged)
             accessoryView = switchView
+        }
+        if isOn == true {
+            textField.textColor = .gray
+            (accessoryView as? UISwitch)?.isOn = true
         }
     }
 

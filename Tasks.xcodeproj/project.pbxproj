@@ -20,6 +20,8 @@
 		D501882F2031A91E006B3922 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = D501881F2031A91D006B3922 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D50188322031A91E006B3922 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D501881D2031A91D006B3922 /* Core.framework */; };
 		D50188332031A91E006B3922 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D501881D2031A91D006B3922 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D50188422031B963006B3922 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50188412031B963006B3922 /* Storage.swift */; };
+		D50188442031BA04006B3922 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D501881D2031A91D006B3922 /* Core.framework */; };
 		D55D1072202D9EDE00472AC3 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55D1070202D9EDE00472AC3 /* TaskTableViewCell.swift */; };
 		D55D1073202D9EDE00472AC3 /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D55D1071202D9EDE00472AC3 /* TaskTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -108,6 +110,8 @@
 		D50188252031A91E006B3922 /* CoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D501882C2031A91E006B3922 /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		D501882E2031A91E006B3922 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D50188402031B881006B3922 /* Intent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Intent.entitlements; sourceTree = "<group>"; };
+		D50188412031B963006B3922 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		D55D1070202D9EDE00472AC3 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		D55D1071202D9EDE00472AC3 /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D50188442031BA04006B3922 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +167,7 @@
 				D501881E2031A91D006B3922 /* Core */,
 				D501882B2031A91E006B3922 /* CoreTests */,
 				81B165A4202CA5C30020B193 /* Products */,
+				D50188432031BA04006B3922 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -205,6 +211,7 @@
 		81B165DB202CA5D00020B193 /* Intent */ = {
 			isa = PBXGroup;
 			children = (
+				D50188402031B881006B3922 /* Intent.entitlements */,
 				81B165DC202CA5D00020B193 /* IntentHandler.swift */,
 				81B165DE202CA5D00020B193 /* Info.plist */,
 			);
@@ -216,6 +223,7 @@
 			children = (
 				D501881F2031A91D006B3922 /* Core.h */,
 				D50188202031A91D006B3922 /* Info.plist */,
+				D50188412031B963006B3922 /* Storage.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -227,6 +235,13 @@
 				D501882E2031A91E006B3922 /* Info.plist */,
 			);
 			path = CoreTests;
+			sourceTree = "<group>";
+		};
+		D50188432031BA04006B3922 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,6 +365,9 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.Siri = {
 								enabled = 1;
 							};
@@ -363,9 +381,15 @@
 					81B165D9202CA5D00020B193 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					D501881C2031A91D006B3922 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					D50188242031A91E006B3922 = {
@@ -470,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D50188422031B963006B3922 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,6 +734,7 @@
 		81B165E3202CA5D00020B193 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q6BEQCNWYM;
 				INFOPLIST_FILE = Intent/Info.plist;
@@ -724,6 +750,7 @@
 		81B165E4202CA5D00020B193 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Intent/Intent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q6BEQCNWYM;
 				INFOPLIST_FILE = Intent/Info.plist;
@@ -740,6 +767,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -754,6 +782,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexruperez.Tasks.Core;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -765,6 +794,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

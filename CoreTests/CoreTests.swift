@@ -11,7 +11,7 @@ import XCTest
 
 class CoreTests: XCTestCase {
     
-    func testAddTask() {
+    func testSaveElement() {
         XCTFail()
     }
     

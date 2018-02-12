@@ -8,8 +8,13 @@
 
 import UIKit
 import Intents
+import Core
+
+extension INTask: Storable {}
 
 class TasksViewController: UITableViewController {
+    private let notificationCenter = NotificationCenter.default
+    private let storage = Storage<INTask>(groupIdentifier: "group.com.alexruperez.Tasks", path: "Tasks")
     private var tasks = [INTask]() {
         didSet {
             navigationItem.rightBarButtonItem = tasks.isEmpty ? nil : editButtonItem
@@ -19,6 +24,22 @@ class TasksViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: String(describing: TaskTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: TaskTableViewCell.self))
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(reload(_:)), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        notificationCenter.addObserver(self, selector: #selector(reload(_:)), name: .UIApplicationDidBecomeActive, object: nil)
+        reload()
+    }
+
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+
+    @objc func reload(_ sender: Any? = nil) {
+        tasks.removeAll()
+        tasks.append(contentsOf: storage.fetchAll())
+        tableView.refreshControl?.endRefreshing()
+        tableView.reloadData()
     }
 
     // MARK: - Private Methods
@@ -30,6 +51,7 @@ class TasksViewController: UITableViewController {
         tasks.append(task)
         let indexPath = IndexPath(row: tasks.count-1, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
+        storage.save(task)
     }
 
     private func update(text: String? = nil, isOn: Bool? = nil, indexPath: IndexPath) {
@@ -48,14 +70,16 @@ class TasksViewController: UITableViewController {
         let currentDateComponents = Calendar.autoupdatingCurrent.dateComponents(in: .autoupdatingCurrent, from: Date())
         let task = INTask(title: title, status: status, taskType: oldTask.taskType, spatialEventTrigger: oldTask.spatialEventTrigger, temporalEventTrigger: oldTask.temporalEventTrigger, createdDateComponents: oldTask.createdDateComponents, modifiedDateComponents: currentDateComponents, identifier: oldTask.identifier)
         tasks[indexPath.row] = task
+        storage.save(task)
     }
 
     private func delete(_ indexPath: IndexPath) {
         guard tasks.count > indexPath.row else {
             return
         }
-        tasks.remove(at: indexPath.row)
+        let task = tasks.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
+        storage.remove(task)
     }
 
     // MARK: - Table View
@@ -72,7 +96,8 @@ class TasksViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TaskTableViewCell.self), for: indexPath) as! TaskTableViewCell
 
         if tasks.count > indexPath.row {
-            cell.config(tasks[indexPath.row].title.spokenPhrase, delegate: self)
+            let task = tasks[indexPath.row]
+            cell.config(task.title.spokenPhrase, task.status == .completed, delegate: self)
         } else {
             cell.config(delegate: self)
         }
@@ -91,7 +116,8 @@ class TasksViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return tasks.count > indexPath.row
+        // TODO: Move rows
+        return false // tasks.count > indexPath.row
     }
 
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
