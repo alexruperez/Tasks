@@ -36,8 +36,11 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
 
-    func configAsTaskCellType() {
-        editingAccessoryType = .detailButton
+    // MARK: - Private Methods
+
+    private func configAsTaskCellType() {
+        // TODO: Show detail button
+        editingAccessoryType = .none // .detailButton
         if !(accessoryView is UISwitch) {
             let switchView = UISwitch()
             switchView.onTintColor = tintColor
@@ -46,7 +49,7 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
 
-    func configAsAddCellType() {
+    private func configAsAddCellType() {
         editingAccessoryType = .none
         if !(accessoryView is UIButton) {
             let buttonView = UIButton(type: .contactAdd)
@@ -71,6 +74,9 @@ class TaskTableViewCell: UITableViewCell {
 }
 
 extension TaskTableViewCell: UITextFieldDelegate {
+
+    // MARK: - Text Field Delegate
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         delegate?.taskTableViewCellDidChange(self, text: textField.text ?? "")
@@ -82,4 +88,5 @@ extension TaskTableViewCell: UITextFieldDelegate {
         }
         return true
     }
+    
 }

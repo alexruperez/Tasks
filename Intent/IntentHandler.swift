@@ -10,7 +10,7 @@ import Intents
 
 class IntentHandler: INExtension, INAddTasksIntentHandling {
 
-    // MARK: - INAddTasksIntentHandling
+    // MARK: - Add Tasks Intent Handling
 
     func handle(intent: INAddTasksIntent, completion: @escaping (INAddTasksIntentResponse) -> Void) {
         completion(INAddTasksIntentResponse(code: .failure, userActivity: nil))

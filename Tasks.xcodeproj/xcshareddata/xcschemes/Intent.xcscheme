@@ -45,13 +45,33 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D50188012031A8E5006B3922"
+               BuildableName = "DomainTests.xctest"
+               BlueprintName = "DomainTests"
+               ReferencedContainer = "container:Tasks.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D50188242031A91E006B3922"
+               BuildableName = "CoreTests.xctest"
+               BlueprintName = "CoreTests"
+               ReferencedContainer = "container:Tasks.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "81B165D9202CA5D00020B193"
-            BuildableName = "Intent.appex"
-            BlueprintName = "Intent"
+            BlueprintIdentifier = "81B165A2202CA5C30020B193"
+            BuildableName = "Tasks.app"
+            BlueprintName = "Tasks"
             ReferencedContainer = "container:Tasks.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Intents
 
 class TasksViewController: UITableViewController {
-    private var tasks = [String]() {
+    private var tasks = [INTask]() {
         didSet {
             navigationItem.rightBarButtonItem = tasks.isEmpty ? nil : editButtonItem
         }
@@ -20,20 +21,36 @@ class TasksViewController: UITableViewController {
         tableView.register(UINib(nibName: String(describing: TaskTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: TaskTableViewCell.self))
     }
 
-    func insert(_ text: String) {
-        tasks.append(text)
+    // MARK: - Private Methods
+
+    private func insert(_ text: String) {
+        let title = INSpeakableString(spokenPhrase: text)
+        let currentDateComponents = Calendar.autoupdatingCurrent.dateComponents(in: .autoupdatingCurrent, from: Date())
+        let task = INTask(title: title, status: .notCompleted, taskType: .completable, spatialEventTrigger: nil, temporalEventTrigger: nil, createdDateComponents: currentDateComponents, modifiedDateComponents: currentDateComponents, identifier: UUID().uuidString)
+        tasks.append(task)
         let indexPath = IndexPath(row: tasks.count-1, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
 
-    func update(_ text: String, indexPath: IndexPath) {
+    private func update(text: String? = nil, isOn: Bool? = nil, indexPath: IndexPath) {
         guard tasks.count > indexPath.row else {
             return
         }
-        tasks[indexPath.row] = text
+        let oldTask = tasks[indexPath.row]
+        var title = oldTask.title
+        if let text = text {
+            title = INSpeakableString(spokenPhrase: text)
+        }
+        var status = oldTask.status
+        if let isOn = isOn {
+            status = isOn ? .completed : .notCompleted
+        }
+        let currentDateComponents = Calendar.autoupdatingCurrent.dateComponents(in: .autoupdatingCurrent, from: Date())
+        let task = INTask(title: title, status: status, taskType: oldTask.taskType, spatialEventTrigger: oldTask.spatialEventTrigger, temporalEventTrigger: oldTask.temporalEventTrigger, createdDateComponents: oldTask.createdDateComponents, modifiedDateComponents: currentDateComponents, identifier: oldTask.identifier)
+        tasks[indexPath.row] = task
     }
 
-    func delete(_ indexPath: IndexPath) {
+    private func delete(_ indexPath: IndexPath) {
         guard tasks.count > indexPath.row else {
             return
         }
@@ -55,7 +72,7 @@ class TasksViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TaskTableViewCell.self), for: indexPath) as! TaskTableViewCell
 
         if tasks.count > indexPath.row {
-            cell.config(tasks[indexPath.row], delegate: self)
+            cell.config(tasks[indexPath.row].title.spokenPhrase, delegate: self)
         } else {
             cell.config(delegate: self)
         }
@@ -89,8 +106,12 @@ class TasksViewController: UITableViewController {
 
 extension TasksViewController: TaskTableViewCellDelegate {
 
+    // MARK: - Task Cell Delegate
+
     func taskTableViewCell(_ taskTableViewCell: TaskTableViewCell, isOn: Bool) {
-        // TODO: Mark as done/undone
+        if let indexPath = tableView.indexPath(for: taskTableViewCell) {
+            update(isOn: isOn, indexPath: indexPath)
+        }
     }
 
     func taskTableViewCellDidChange(_ taskTableViewCell: TaskTableViewCell, text: String) {
@@ -99,7 +120,7 @@ extension TasksViewController: TaskTableViewCellDelegate {
                 if taskTableViewCell.isAddCellType {
                     insert(text)
                 } else {
-                    update(text, indexPath: indexPath)
+                    update(text: text, indexPath: indexPath)
                 }
             } else {
                 delete(indexPath)
